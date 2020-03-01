@@ -5,8 +5,11 @@ const { catchErrors } = require('../handlers/errorHandlers');
 const router = express.Router();
 
 // Do work here
-router.get('/', storeController.homePage);
+router.get('/', catchErrors(storeController.getStores));
+router.get('/stores', catchErrors(storeController.getStores));
 router.get('/add', storeController.addStore);
 router.post('/add', catchErrors(storeController.createStore));
+router.post('/add/:storeId', catchErrors(storeController.updateStore));
+router.get('/stores/:storeId/edit', catchErrors(storeController.editStore));
 
 module.exports = router;
