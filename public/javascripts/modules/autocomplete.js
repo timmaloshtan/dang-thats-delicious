@@ -2,6 +2,13 @@ function autocomplete(input, latInput, lngInput) {
   if (!input) {
     return;
   }
+
+  input.on('keydown', e => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+    }
+  });
+
   const dropdown = new google.maps.places.Autocomplete(input);
 
   dropdown.addListener('place_changed', () => {
