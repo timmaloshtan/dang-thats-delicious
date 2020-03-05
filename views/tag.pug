@@ -1,5 +1,7 @@
 extends layout
 
+include mixins/_storeCard
+
 block content
   .inner
     h2 Tags #{currentTag ? `- ${currentTag}` : ''}
@@ -12,3 +14,6 @@ block content
           )
             span.tag__text= tag._id
             span.tag__count= tag.count
+    .stores
+      each store in stores
+        +storeCard(store)
