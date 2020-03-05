@@ -25,6 +25,7 @@ exports.validateRegister = (req, res, next) => {
   console.log('errors :', errors);
   if (errors) {
     req.flash('error', errors.map(err => err.msg))
-    res.render('register', { title: 'Register', body: req.body, flashes: req.flash() });
+    return res.render('register', { title: 'Register', body: req.body, flashes: req.flash() });
   }
+  next();
 };
