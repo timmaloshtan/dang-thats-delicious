@@ -65,6 +65,12 @@ router.post(
   '/account/reset/:token',
   authController.confirmedPasswords,
   catchErrors(authController.update), 
-)
+);
+
+/**
+ * API endpoints (according to course's author)
+ */
+
+router.get('/api/search', catchErrors(storeController.searchStores));
 
 module.exports = router;
