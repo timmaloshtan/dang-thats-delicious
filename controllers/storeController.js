@@ -92,6 +92,7 @@ exports.updateStore = async (req, res) => {
       runValidators: true,
     }
   ).exec();
+
   req.flash('success', `Successfully updated ${store.name} store! <a href="/stores/${store.slug}">View Store →</a>`);
   res.redirect(`/stores/${store._id}/edit`);
 };
@@ -144,3 +145,31 @@ exports.searchStores = async (req, res) => {
 
   res.json(stores);
 };
+
+exports.mapStores = async (req, res) => {
+  const coordinates = [
+    req.query.lng,
+    req.query.lat,
+  ].map(parseFloat);
+
+  const query = {
+    location: {
+      $near: {
+        $geometry: {
+          type: 'Point',
+          coordinates,
+        },
+        $maxDistance: 8000,
+      }
+    }
+  };
+
+  const stores = await Store.find(query)
+    .select('photo name slug description location')
+    .limit(10);
+  res.json(stores);
+};
+
+exports.mapPage = (req, res) => {
+  res.render('map', { title: 'Map' });
+}
