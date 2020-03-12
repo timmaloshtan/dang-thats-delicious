@@ -4,6 +4,7 @@ const jimp = require('jimp');
 const uuid = require('uuid');
 
 const Store = mongoose.model('Store');
+const User = mongoose.model('User');
 
 const multerOptions = {
   storage: multer.memoryStorage(),
@@ -172,4 +173,22 @@ exports.mapStores = async (req, res) => {
 
 exports.mapPage = (req, res) => {
   res.render('map', { title: 'Map' });
-}
+};
+
+exports.heartStore = async (req, res) => {
+  const hearts = req.user.hearts.map(heart => heart.toString());
+
+  const operator = hearts.includes(req.params.storeId)
+    ? '$pull'
+    : '$addToSet';
+  
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      [operator]: { hearts: req.params.storeId }
+    },
+    { new: true },
+  )
+  
+  res.json(user);
+};
