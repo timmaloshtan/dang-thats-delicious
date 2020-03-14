@@ -31,6 +31,9 @@ const userSchema = new Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Store',
   }],
+}, {
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true },
 });
 
 userSchema.virtual('gravatar').get(function() {

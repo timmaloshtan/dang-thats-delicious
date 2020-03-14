@@ -30,4 +30,12 @@ const reviewSchema = new Schema({
   },
 });
 
+function autopopulate(next) {
+  this.populate('author', '-_id -id -resetPasswordToken -resetPasswordExipres');
+  next();
+}
+
+reviewSchema.pre('find', autopopulate);
+reviewSchema.pre('findOne', autopopulate);
+
 module.exports = mongoose.model('Review', reviewSchema);
