@@ -60,7 +60,7 @@ exports.createStore = async (req, res) => {
 };
 
 exports.getStores = async (req, res) => {
-  const stores = await Store.find()
+  const stores = await Store.find();
   res.render('stores', { title: 'Stores', stores });
 };
 
@@ -205,3 +205,10 @@ exports.getHearts = async (req, res) => {
     stores,
   });
 };
+
+exports.getTopStores = async (req, res) => {
+  const stores = await Store.getTopStores();
+
+  res.render('topStores', { title: 'Top Stores', stores });
+};
+
